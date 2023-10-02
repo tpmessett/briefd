@@ -1,0 +1,2 @@
+class GlobalBriefTemplate < ApplicationRecord
+end
