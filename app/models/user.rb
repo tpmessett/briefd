@@ -6,4 +6,6 @@ class User < ApplicationRecord
 
   belongs_to :company
   belongs_to :client, optional: true
+  has_many :briefs
+  has_many :mood_boards
 end
