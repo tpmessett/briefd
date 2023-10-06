@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_05_221538) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_06_141237) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -59,6 +59,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_05_221538) do
     t.index ["user_id"], name: "index_briefs_on_user_id"
   end
 
+  create_table "client_assignments", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "client_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_client_assignments_on_client_id"
+    t.index ["user_id"], name: "index_client_assignments_on_user_id"
+  end
+
   create_table "clients", force: :cascade do |t|
     t.bigint "company_id", null: false
     t.string "name"
@@ -74,6 +83,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_05_221538) do
     t.string "plan"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "company_assignments", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "company_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_company_assignments_on_company_id"
+    t.index ["user_id"], name: "index_company_assignments_on_user_id"
   end
 
   create_table "contents", force: :cascade do |t|
@@ -152,7 +170,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_05_221538) do
   add_foreign_key "briefs", "brief_templates"
   add_foreign_key "briefs", "clients"
   add_foreign_key "briefs", "users"
+  add_foreign_key "client_assignments", "clients"
+  add_foreign_key "client_assignments", "users"
   add_foreign_key "clients", "companies"
+  add_foreign_key "company_assignments", "companies"
+  add_foreign_key "company_assignments", "users"
   add_foreign_key "contents", "mood_boards"
   add_foreign_key "goals", "briefs"
   add_foreign_key "mood_boards", "briefs"

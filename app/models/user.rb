@@ -4,8 +4,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  belongs_to :company
-  belongs_to :client, optional: true
+  has_many :company_assignments
+  has_many :companies, through: :company_assignments
+  has_many :client_assignments
+  has_many :clients, through: :client_assignments
   has_many :briefs
   has_many :mood_boards
 end
