@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_06_143351) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_06_162129) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,6 +24,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_143351) do
     t.datetime "updated_at", null: false
     t.index ["brief_id"], name: "index_approvals_on_brief_id"
     t.index ["user_id"], name: "index_approvals_on_user_id"
+  end
+
+  create_table "brand_documents", force: :cascade do |t|
+    t.string "name"
+    t.text "summary"
+    t.text "link"
+    t.bigint "client_id"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "brief_id"
+    t.index ["brief_id"], name: "index_brand_documents_on_brief_id"
+    t.index ["client_id"], name: "index_brand_documents_on_client_id"
+    t.index ["user_id"], name: "index_brand_documents_on_user_id"
   end
 
   create_table "brief_feedbacks", force: :cascade do |t|
@@ -53,6 +67,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_143351) do
     t.bigint "global_brief_template_id"
     t.string "goal_framework"
     t.integer "approval_flow", default: [], array: true
+    t.datetime "archived_at"
     t.index ["client_id"], name: "index_brief_templates_on_client_id"
     t.index ["company_id"], name: "index_brief_templates_on_company_id"
     t.index ["fields"], name: "index_brief_templates_on_fields", using: :gin
@@ -75,6 +90,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_143351) do
     t.text "client_notes"
     t.text "company_notes"
     t.text "brief_notes"
+    t.datetime "archived_at"
     t.index ["brief_template_id"], name: "index_briefs_on_brief_template_id"
     t.index ["client_id"], name: "index_briefs_on_client_id"
     t.index ["responses"], name: "index_briefs_on_responses", using: :gin
@@ -101,6 +117,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_143351) do
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "archived_at"
     t.index ["company_id"], name: "index_clients_on_company_id"
   end
 
@@ -127,6 +144,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_143351) do
     t.bigint "mood_board_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "archived_at"
     t.index ["mood_board_id"], name: "index_contents_on_mood_board_id"
   end
 
@@ -137,6 +155,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_143351) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "goal_framework"
+    t.datetime "archived_at"
     t.index ["fields"], name: "index_global_brief_templates_on_fields", using: :gin
   end
 
@@ -148,6 +167,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_143351) do
     t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "archived_at"
     t.index ["brief_id"], name: "index_goals_on_brief_id"
   end
 
@@ -160,10 +180,59 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_143351) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "archived_at"
     t.index ["brief_id"], name: "index_mood_boards_on_brief_id"
     t.index ["client_id"], name: "index_mood_boards_on_client_id"
     t.index ["company_id"], name: "index_mood_boards_on_company_id"
     t.index ["user_id"], name: "index_mood_boards_on_user_id"
+  end
+
+  create_table "personas", force: :cascade do |t|
+    t.string "name"
+    t.text "summary"
+    t.text "links", default: [], array: true
+    t.string "income_level"
+    t.string "age_range"
+    t.text "demographic_traits", default: [], array: true
+    t.string "job_title"
+    t.string "department"
+    t.boolean "B2B"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "client_id"
+    t.bigint "brief_id"
+    t.bigint "user_id", null: false
+    t.index ["brief_id"], name: "index_personas_on_brief_id"
+    t.index ["client_id"], name: "index_personas_on_client_id"
+    t.index ["user_id"], name: "index_personas_on_user_id"
+  end
+
+  create_table "positioning_maps", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "type"
+    t.bigint "client_id"
+    t.bigint "brief_id"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["brief_id"], name: "index_positioning_maps_on_brief_id"
+    t.index ["client_id"], name: "index_positioning_maps_on_client_id"
+    t.index ["user_id"], name: "index_positioning_maps_on_user_id"
+  end
+
+  create_table "product_documents", force: :cascade do |t|
+    t.string "name"
+    t.text "summary"
+    t.text "link"
+    t.bigint "client_id"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "brief_id"
+    t.index ["brief_id"], name: "index_product_documents_on_brief_id"
+    t.index ["client_id"], name: "index_product_documents_on_client_id"
+    t.index ["user_id"], name: "index_product_documents_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -189,6 +258,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_143351) do
 
   add_foreign_key "approvals", "briefs"
   add_foreign_key "approvals", "users"
+  add_foreign_key "brand_documents", "briefs"
+  add_foreign_key "brand_documents", "clients"
+  add_foreign_key "brand_documents", "users"
   add_foreign_key "brief_feedbacks", "brief_templates"
   add_foreign_key "brief_feedbacks", "clients"
   add_foreign_key "brief_feedbacks", "companies"
@@ -210,6 +282,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_143351) do
   add_foreign_key "mood_boards", "clients"
   add_foreign_key "mood_boards", "companies"
   add_foreign_key "mood_boards", "users"
+  add_foreign_key "personas", "briefs"
+  add_foreign_key "personas", "clients"
+  add_foreign_key "personas", "users"
+  add_foreign_key "positioning_maps", "briefs"
+  add_foreign_key "positioning_maps", "clients"
+  add_foreign_key "positioning_maps", "users"
+  add_foreign_key "product_documents", "briefs"
+  add_foreign_key "product_documents", "clients"
+  add_foreign_key "product_documents", "users"
   add_foreign_key "users", "clients"
   add_foreign_key "users", "companies"
 end

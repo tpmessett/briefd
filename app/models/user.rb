@@ -11,4 +11,8 @@ class User < ApplicationRecord
   has_many :briefs
   has_many :mood_boards
   has_many :approvals
+  has_many :brand_documents
+  has_many :positioning_maps
+  has_many :product_documents
+  has_many :personas
 end
