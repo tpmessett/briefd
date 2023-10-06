@@ -1,4 +1,4 @@
-class CreateBriefFeedbacks < ActiveRecord::Migration[6.0] # or your specific Rails version
+class CreateBriefFeedbacks < ActiveRecord::Migration[7.0] # or your specific Rails version
   def change
     create_table :brief_feedbacks do |t|
       t.references :company, foreign_key: true

@@ -10,4 +10,5 @@ class User < ApplicationRecord
   has_many :clients, through: :client_assignments
   has_many :briefs
   has_many :mood_boards
+  has_many :approvals
 end

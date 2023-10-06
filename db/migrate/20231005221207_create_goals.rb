@@ -1,4 +1,4 @@
-class CreateGoals < ActiveRecord::Migration[6.0] # or your specific Rails version
+class CreateGoals < ActiveRecord::Migration[7.0] # or your specific Rails version
   def change
     create_table :goals do |t|
       t.references :brief, null: false, foreign_key: true

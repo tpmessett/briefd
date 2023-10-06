@@ -10,9 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_06_141638) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_06_143351) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "approvals", force: :cascade do |t|
+    t.bigint "brief_id", null: false
+    t.bigint "user_id", null: false
+    t.text "feedback"
+    t.datetime "approved_on"
+    t.datetime "rejected_on"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["brief_id"], name: "index_approvals_on_brief_id"
+    t.index ["user_id"], name: "index_approvals_on_user_id"
+  end
 
   create_table "brief_feedbacks", force: :cascade do |t|
     t.bigint "company_id"
@@ -40,6 +52,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_141638) do
     t.datetime "updated_at", null: false
     t.bigint "global_brief_template_id"
     t.string "goal_framework"
+    t.integer "approval_flow", default: [], array: true
     t.index ["client_id"], name: "index_brief_templates_on_client_id"
     t.index ["company_id"], name: "index_brief_templates_on_company_id"
     t.index ["fields"], name: "index_brief_templates_on_fields", using: :gin
@@ -55,10 +68,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_141638) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "goal_framework"
+    t.integer "client_score", limit: 2
+    t.integer "company_score", limit: 2
+    t.integer "brief_score", limit: 2
+    t.integer "total_score", limit: 2
+    t.text "client_notes"
+    t.text "company_notes"
+    t.text "brief_notes"
     t.index ["brief_template_id"], name: "index_briefs_on_brief_template_id"
     t.index ["client_id"], name: "index_briefs_on_client_id"
     t.index ["responses"], name: "index_briefs_on_responses", using: :gin
     t.index ["user_id"], name: "index_briefs_on_user_id"
+    t.check_constraint "brief_score >= 0 AND brief_score <= 100", name: "check_brief_score"
+    t.check_constraint "client_score >= 0 AND client_score <= 100", name: "check_client_score"
+    t.check_constraint "company_score >= 0 AND company_score <= 100", name: "check_company_score"
+    t.check_constraint "total_score >= 0 AND total_score <= 100", name: "check_total_score"
   end
 
   create_table "client_assignments", force: :cascade do |t|
@@ -163,6 +187,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_141638) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "approvals", "briefs"
+  add_foreign_key "approvals", "users"
   add_foreign_key "brief_feedbacks", "brief_templates"
   add_foreign_key "brief_feedbacks", "clients"
   add_foreign_key "brief_feedbacks", "companies"
