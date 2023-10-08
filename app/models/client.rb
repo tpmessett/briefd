@@ -8,4 +8,6 @@ class Client < ApplicationRecord
   has_many :product_documents
   has_many :brand_documents
   has_many :personas
+  has_many :admired_brands
+  has_many :admired_campaigns
 end

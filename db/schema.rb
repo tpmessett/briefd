@@ -10,9 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_06_162129) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_08_201955) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "admired_brands", force: :cascade do |t|
+    t.string "name"
+    t.text "summary"
+    t.text "link"
+    t.boolean "negative"
+    t.text "reasons", default: [], array: true
+    t.bigint "brief_id"
+    t.bigint "client_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["brief_id"], name: "index_admired_brands_on_brief_id"
+    t.index ["client_id"], name: "index_admired_brands_on_client_id"
+  end
+
+  create_table "admired_campaigns", force: :cascade do |t|
+    t.string "name"
+    t.text "summary"
+    t.text "link"
+    t.boolean "negative"
+    t.text "reasons", default: [], array: true
+    t.bigint "brief_id"
+    t.bigint "client_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["brief_id"], name: "index_admired_campaigns_on_brief_id"
+    t.index ["client_id"], name: "index_admired_campaigns_on_client_id"
+  end
 
   create_table "approvals", force: :cascade do |t|
     t.bigint "brief_id", null: false
@@ -126,6 +154,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_162129) do
     t.string "plan"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "business_field"
+    t.string "business_type"
   end
 
   create_table "company_assignments", force: :cascade do |t|
@@ -256,6 +286,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_162129) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "admired_brands", "briefs"
+  add_foreign_key "admired_brands", "clients"
+  add_foreign_key "admired_campaigns", "briefs"
+  add_foreign_key "admired_campaigns", "clients"
   add_foreign_key "approvals", "briefs"
   add_foreign_key "approvals", "users"
   add_foreign_key "brand_documents", "briefs"

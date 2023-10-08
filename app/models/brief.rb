@@ -8,5 +8,7 @@ class Brief < ApplicationRecord
   has_many :brand_documents
   has_many :positioning_maps
   has_many :product_documents
+  has_many :admired_brands
+  has_many :admired_campaigns
   validates :client_score, :company_score, :brief_score, :total_score, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
 end
