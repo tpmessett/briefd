@@ -15,6 +15,7 @@ class User < ApplicationRecord
   has_many :positioning_maps
   has_many :product_documents
   has_many :personas
+  has_many :invites
 
   def self.from_omniauth_google(access_token)
     data = access_token.info

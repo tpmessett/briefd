@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_13_201326) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_13_214427) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -201,6 +201,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_201326) do
     t.index ["brief_id"], name: "index_goals_on_brief_id"
   end
 
+  create_table "invites", force: :cascade do |t|
+    t.bigint "client_id"
+    t.bigint "brief_id"
+    t.bigint "user_id"
+    t.bigint "company_id"
+    t.string "email"
+    t.string "invite_type"
+    t.string "source"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["brief_id"], name: "index_invites_on_brief_id"
+    t.index ["client_id"], name: "index_invites_on_client_id"
+    t.index ["company_id"], name: "index_invites_on_company_id"
+    t.index ["user_id"], name: "index_invites_on_user_id"
+  end
+
   create_table "mood_boards", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -311,6 +327,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_201326) do
   add_foreign_key "company_assignments", "users"
   add_foreign_key "contents", "mood_boards"
   add_foreign_key "goals", "briefs"
+  add_foreign_key "invites", "briefs"
+  add_foreign_key "invites", "clients"
+  add_foreign_key "invites", "companies"
+  add_foreign_key "invites", "users"
   add_foreign_key "mood_boards", "briefs"
   add_foreign_key "mood_boards", "clients"
   add_foreign_key "mood_boards", "companies"

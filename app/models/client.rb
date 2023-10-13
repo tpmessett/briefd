@@ -10,4 +10,5 @@ class Client < ApplicationRecord
   has_many :personas
   has_many :admired_brands
   has_many :admired_campaigns
+  has_many :invites
 end

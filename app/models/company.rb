@@ -6,4 +6,5 @@ class Company < ApplicationRecord
   has_many :product_documents
   has_many :brand_documents
   has_many :positioning_maps
+  has_many :invites
 end
