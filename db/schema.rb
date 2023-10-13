@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_13_200837) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_13_201326) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -278,7 +278,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_200837) do
     t.string "position"
     t.boolean "is_admin", default: false
     t.string "user_type"
-    t.bigint "company_id", null: false
     t.bigint "client_id"
     t.string "provider"
     t.string "uid"
@@ -326,5 +325,4 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_200837) do
   add_foreign_key "product_documents", "clients"
   add_foreign_key "product_documents", "users"
   add_foreign_key "users", "clients"
-  add_foreign_key "users", "companies"
 end
