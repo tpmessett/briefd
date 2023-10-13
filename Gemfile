@@ -8,7 +8,7 @@ gem 'omniauth'
 gem 'omniauth-google-oauth2'
 
 # MSFT login
-gem 'omniauth-azure-oauth2'
+gem 'omniauth-microsoft-office365'
 
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"

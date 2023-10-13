@@ -1,3 +1,5 @@
+require 'omniauth-microsoft-office365'
+
 # frozen_string_literal: true
 
 # Assuming you have not yet modified this file, each configuration option below
@@ -273,6 +275,9 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :google_oauth2, "959628434375-hg8rg4cecqorbmf768ppapu5cme15tgi.apps.googleusercontent.com", "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", {}
+  config.omniauth :microsoft_office365, ENV['AZURE_CLIENT_ID'], ENV['AZURE_CLIENT_SECRET']
+
+  # config.omniauth :microsoft_office365, ENV['AZURE_CLIENT_ID'], ENV['AZURE_CLIENT_SECRET']
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.

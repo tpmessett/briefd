@@ -178,14 +178,13 @@ GEM
     omniauth (1.9.2)
       hashie (>= 3.4.6)
       rack (>= 1.6.2, < 3)
-    omniauth-azure-oauth2 (0.0.10)
-      jwt (>= 1.0, < 3.0)
-      omniauth (~> 1.0)
-      omniauth-oauth2 (~> 1.4)
     omniauth-google-oauth2 (0.8.0)
       jwt (>= 2.0)
       omniauth (>= 1.1.1)
       omniauth-oauth2 (>= 1.6)
+    omniauth-microsoft-office365 (0.0.8)
+      omniauth
+      omniauth-oauth2
     omniauth-oauth2 (1.7.3)
       oauth2 (>= 1.4, < 3)
       omniauth (>= 1.9, < 3)
@@ -307,8 +306,8 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   omniauth
-  omniauth-azure-oauth2
   omniauth-google-oauth2
+  omniauth-microsoft-office365
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.8)

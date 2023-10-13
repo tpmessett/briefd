@@ -21,8 +21,11 @@
     <%= f.button :submit, "Sign up" %>
   </div>
   <div>
-    <%= link_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path %>
+    <%= link_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path, class: "btn btn-outline-primary"  %>
 
+  </div>
+  <div>
+    <%= link_to "Log in with Microsoft", user_microsoft_office365_omniauth_authorize_path, class: "btn btn-primary" %>
   </div>
 <% end %>
 
