@@ -10,6 +10,8 @@ gem 'omniauth-google-oauth2'
 # MSFT login
 gem 'omniauth-microsoft-office365'
 
+#AWS content
+gem 'aws-sdk-s3', '~> 1.48'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.8"
