@@ -11,5 +11,5 @@ class Client < ApplicationRecord
   has_many :admired_brands
   has_many :admired_campaigns
   has_many :invites
-  validates_length_of :name, minimum: 1
+  validates :name, presence: true
 end

@@ -4,12 +4,15 @@ class CompaniesController < ApplicationController
   def create
     @company = Company.new(company_params)
     puts   company_params
-    if @company.save
-      # Create a company assignment for the current user
-      CompanyAssignment.create!(user: current_user, company: @company)
-      redirect_to @company, notice: 'Company was successfully created.'
-    else
-      render :new
+    # added to ensure user gets saved or roll back
+    ActiveRecord::Base.transaction do
+      if @company.save
+        # Create a company assignment for the current user
+        CompanyAssignment.create!(user: current_user, company: @company)
+        redirect_to @company, notice: 'Company was successfully created.'
+      else
+        render :new
+      end
     end
   end
 
