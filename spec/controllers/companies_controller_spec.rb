@@ -4,7 +4,6 @@ RSpec.describe CompaniesController, type: :controller do
   # For authentication, you might need to adjust this depending on your authentication setup.
   let(:user) { create(:user) }
   let(:admin) { create(:user, :admin) }
-  let!(:company) { create(:company) } # This company will be edited.
 
   before do
     sign_in user
@@ -18,8 +17,6 @@ RSpec.describe CompaniesController, type: :controller do
         }.to change(Company, :count).by(1)
       end
     end
-
-    # Add more contexts for invalid attributes, etc.
   end
 
   describe 'DELETE #destroy' do
@@ -45,15 +42,15 @@ RSpec.describe CompaniesController, type: :controller do
   end
 
   describe 'PUT /companies/:id' do
+    let!(:company) { create(:company) } # This company will be edited.
+
     before do
       sign_in user
     end
 
     context 'with valid attributes' do
-      let(:valid_attributes) { { company: { name: 'Updated Company Name', plan: 'Updated Plan' } } }
-
       it 'updates the company and redirects to the company page' do
-        put company_path(company), params: valid_attributes
+        put :update, params: { id: company.id, company: {"name"=>"Updated Company Name", "plan"=>"Updated Plan"} }
         company.reload # Refresh the company attributes from the database
 
         expect(response).to redirect_to(company)
@@ -63,13 +60,13 @@ RSpec.describe CompaniesController, type: :controller do
     end
 
     context 'with invalid attributes' do
-      let(:invalid_attributes) { { company: { name: '' } } } # Empty name as an example of invalid data
-
       it 'does not update the company' do
         expect {
-          put company_path(company), params: invalid_attributes
+          put :update, params: { id: company.id, company: { "name"=>"" } }
         }.not_to change { company.reload.name } # The company name should not change
-        expect(response.body).to include("Name can't be blank") # Assuming this validation error message.
+        puts controller.instance_variable_get(:@company).errors.full_messages.inspect
+        company = assigns(:company)  # Fetch the @company instance variable from the controller
+        expect(company.errors.full_messages).to include("Name can't be blank")
       end
     end
   end

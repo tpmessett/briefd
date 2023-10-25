@@ -1,10 +1,9 @@
 class CompaniesController < ApplicationController
-   before_action :set_company, only: [:edit, :update, :destroy]
   before_action :check_admin, only: :destroy
 
   def create
     @company = Company.new(company_params)
-
+    puts   company_params
     if @company.save
       # Create a company assignment for the current user
       CompanyAssignment.create!(user: current_user, company: @company)
@@ -15,10 +14,11 @@ class CompaniesController < ApplicationController
   end
 
   def edit
-    # The edit view will use @company to populate the form fields.
+    @company = Company.find(params[:id])
   end
 
   def update
+    @company = Company.find(params[:id])
     if @company.update(company_params)
       redirect_to @company, notice: 'Company was successfully updated.'
     else
@@ -27,18 +27,19 @@ class CompaniesController < ApplicationController
   end
 
   def destroy
+    @company = Company.find(params[:id])
     @company.destroy
     redirect_to companies_url, notice: 'Company was successfully deleted.'
+  end
+
+  def show
+    @company = Company.find(params[:id])
   end
 
   private
 
   def company_params
     params.require(:company).permit(:name, :plan, :business_field, :business_type)
-  end
-
-  def set_company
-    @company = Company.find(params[:id])
   end
 
   def check_admin

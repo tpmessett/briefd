@@ -1,0 +1,8 @@
+edit.html.erb
+<% if @company.errors.any? %>
+  <ul>
+    <% @company.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>

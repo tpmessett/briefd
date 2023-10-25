@@ -7,4 +7,5 @@ class Company < ApplicationRecord
   has_many :brand_documents
   has_many :positioning_maps
   has_many :invites
+  validates :name, presence: true
 end
