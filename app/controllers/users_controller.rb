@@ -1,13 +1,15 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_user, only: [:update]
-  before_action :authorize_user, only: [:update]  # Ensure the current user can edit the user
   before_action :find_user, only: [:update]  # Find the user to be updated
 
   def update
+      puts @user.is_admin
+      puts @user.user_type
     if @user.update(user_params)
+      puts "if"
       redirect_to root_path, notice: 'User was successfully updated.'
     else
+      puts "else"
       render :edit
     end
   end
@@ -38,10 +40,14 @@ class UsersController < ApplicationController
     @user = current_user
   end
 
+  def find_user
+    @user = User.find(params[:id])
+  end
+
   def user_params
     # Protect the `is_admin` attribute
-    if params[:user][:is_admin] == "true" && !current_user.is_admin?
-      params[:user].delete(:is_admin)
+    if (params[:user][:is_admin] == true || params[:user][:is_admin] == "true") && !current_user.is_admin?
+      params[:user][:is_admin] = false
     end
 
     # Protect the `user_type` attribute
