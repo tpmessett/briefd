@@ -1,6 +1,6 @@
 class ClientsController < ApplicationController
   before_action :set_client, only: [:show, :edit, :update, :destroy]
-  before_action :set_company, only: [:index, :new, :create]
+  before_action :set_company
   before_action :check_admin_or_company_admin, only: :destroy
 
   def index
@@ -27,11 +27,12 @@ class ClientsController < ApplicationController
   end
 
   def edit
+    puts "edit"
   end
 
   def update
     if @client.update(client_params)
-      redirect_to [@company, @client], notice: 'Client was successfully updated.'
+      redirect_to company_client_path(@company, @client), notice: 'Client was successfully updated.'
     else
       render :edit
     end
@@ -39,13 +40,14 @@ class ClientsController < ApplicationController
 
   def destroy
     @client.destroy
-    redirect_to company_clients_url(@company), notice: 'Client was successfully deleted.'
+    redirect_to company_clients_path(@company), notice: 'Client was successfully deleted.'
   end
 
   private
 
   def set_client
     @client = Client.find(params[:id])
+    puts @client
   end
 
   def set_company
