@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   root to: "pages#home"
   resources :companies do
     resources :clients
+    resources :brief_templates
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
