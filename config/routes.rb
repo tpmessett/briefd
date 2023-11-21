@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :companies do
     resources :clients
     resources :brief_templates
+    resources :briefs
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
