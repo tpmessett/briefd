@@ -26,6 +26,10 @@ class BriefsController < ApplicationController
     @brief = Brief.new(brief_params)
 
     if @brief.save
+      if params[:user_ids].present?
+        create_approvals_for_brief(@brief, params[:user_ids])
+      end
+
       redirect_to @brief, notice: 'Brief was successfully created.'
     else
       render :new
@@ -48,6 +52,17 @@ class BriefsController < ApplicationController
   end
 
   private
+
+    def create_approvals_for_brief(brief, user_ids)
+      user_ids.each do |user_id|
+        # Create an approval for each user in the user_ids array
+        Approval.create(
+          brief_id: brief.id,
+          user_id: user_id,
+        )
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_brief
       @brief = Brief.find(params[:id])
